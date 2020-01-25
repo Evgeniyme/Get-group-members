@@ -1,0 +1,6 @@
+$group = Read-Host -Prompt "Enter groupname"
+$DateTime = Get-Date -f "dd-MM-yy" 
+$path="D:\"+ $group + " " + $DateTime + ".txt"
+Get-ADGroupMember -Recursive $group | ForEach {Get-ADUser -filter {samaccountname -eq $_.SamAccountName}`
+-Properties displayName, company, title, department} | Sort-Object company,displayName |`
+Format-Table displayName,company,department,title -GroupBy company -AutoSize | Out-File -Width 4000 $path
